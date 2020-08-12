@@ -14,8 +14,10 @@ import {BrowserRouter as Router} from 'react-router-dom'
 
 import NavigationBar from './components/NavigationBar'
 import FlashMessageList from './components/flash/FlashMessagesList'
+import setAuthorizationToken from './utils/setAuthorizationToken'
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(logger, thunk)));
+setAuthorizationToken(localStorage.jwtToken);
 
 ReactDOM.render(
   <Provider store={store}>
