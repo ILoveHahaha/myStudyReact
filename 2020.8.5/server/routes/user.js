@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const isEmpty = require('lodash/isEmpty');
 const validator = require('validator');
+const sqlFn = require('../mysql');
 
 const validatorInput = (data) => {
   let errors = {};
@@ -26,14 +27,38 @@ const validatorInput = (data) => {
   }
 }
 
+// TODO: 需要连接数据库
 router.post('/', (req, res) => {
   const {errors, isValid} = validatorInput(req.body);
+  let sql = 'insert into user values (null, ?, ?, ?, ?)';
+  let arr = [req.body.email, req.body.username, req.body.password, req.body.passwordConfirmation];
   if (!isValid) {
     res.status(400).json(errors)
   }
   else {
-    res.status(204).send()
+    sqlFn(sql, arr, function (data) {
+      if (data.affectedRows) {
+        res.send({success: true})
+      }
+      else {
+        res.status(400).json({error: '注册失败'})
+      }
+    })
   }
+});
+
+// TODO：需要连接数据库
+router.get('/:username', (req, res) => {
+  let sql = 'select * from user where `username`=?';
+  let arr = [req.params.username];
+  sqlFn(sql, arr, function (data) {
+    if (data) {
+      res.send(data)
+    }
+    else {
+      res.send({})
+    }
+  })
 });
 
 module.exports = router;

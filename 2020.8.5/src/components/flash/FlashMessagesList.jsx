@@ -1,12 +1,16 @@
 import React from 'react'
 import FlashMessage from './FlashMessage'
 import { connect } from 'react-redux'
+import {deleteFlashMessage} from "../../actions/flashMessage";
 
 class FlashMessagesList extends React.Component{
   render () {
 
     const messages = this.props.messages.map(message => {
-      return <FlashMessage key={ message.id } message={ message } />
+      return <FlashMessage
+        key={ message.id }
+        message={ message }
+        deleteFlashMessage={this.props.deleteFlashMessage} />
     });
 
     return (
@@ -23,4 +27,4 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default connect(mapStateToProps)(FlashMessagesList)
+export default connect(mapStateToProps, { deleteFlashMessage })(FlashMessagesList)
