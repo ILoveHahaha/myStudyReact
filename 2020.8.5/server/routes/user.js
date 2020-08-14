@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const isEmpty = require('lodash/isEmpty');
 const validator = require('validator');
-const sqlFn = require('../mysql');
+// const sqlFn = require('../mysql');
+const ImitateDatabase = require('../mysql/imitate');
+let sqlFn = new ImitateDatabase();
 
 const validatorInput = (data) => {
   let errors = {};
@@ -36,14 +38,26 @@ router.post('/', (req, res) => {
     res.status(400).json(errors)
   }
   else {
-    sqlFn(sql, arr, function (data) {
-      if (data.affectedRows) {
-        res.send({success: true})
-      }
-      else {
-        res.status(400).json({error: '注册失败'})
-      }
+    let tempState = sqlFn.addData({
+      email: req.body.email,
+      username: req.body.username,
+      password: req.body.password,
+      passwordConfirmation: req.body.passwordConfirmation
     })
+    if (tempState) {
+      res.send({success: true})
+    }
+    else {
+      res.status(400).json({error: '注册失败'})
+    }
+    // sqlFn(sql, arr, function (data) {
+    //   if (data.affectedRows) {
+    //     res.send({success: true})
+    //   }
+    //   else {
+    //     res.status(400).json({error: '注册失败'})
+    //   }
+    // })
   }
 });
 
@@ -51,14 +65,21 @@ router.post('/', (req, res) => {
 router.get('/:username', (req, res) => {
   let sql = 'select * from user where `username`=?';
   let arr = [req.params.username];
-  sqlFn(sql, arr, function (data) {
-    if (data) {
-      res.send(data)
-    }
-    else {
-      res.send({})
-    }
-  })
+  let tempArr = sqlFn.findData('username', req.params.username);
+  if (tempArr.length) {
+    res.send(tempArr[0])
+  }
+  else {
+    res.send({})
+  }
+  // sqlFn(sql, arr, function (data) {
+  //   if (data) {
+  //     res.send(data)
+  //   }
+  //   else {
+  //     res.send({})
+  //   }
+  // })
 });
 
 module.exports = router;
