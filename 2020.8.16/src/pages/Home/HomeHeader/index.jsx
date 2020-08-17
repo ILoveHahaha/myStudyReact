@@ -13,8 +13,10 @@ export default class HomeHeader extends React.Component{
                     <i className={'iconfont icon-car'}></i>
                 </div>
                 <div className={'home-header-middle'}>
-                    <i className={'icon-search'}></i>
-                    <input type={'text'} />
+                    <div className="search-container">
+                        <i className={'icon-search'}></i>
+                        <input type={'text'} />
+                    </div>
                 </div>
             </div>
         )

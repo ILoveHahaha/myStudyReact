@@ -8,16 +8,28 @@ export default class FootNav extends React.Component{
             <div className={'nav-footer'}>
                 <ul children={'clear-fix'}>
                     <li>
-                        <NavLink exact to={'/'}>首页</NavLink>
+                        <NavLink exact to="/">
+                            <i className="iconfont icon-home"></i>
+                            首页
+                        </NavLink>
                     </li>
                     <li>
-                        <NavLink to={'/shop'}>商城</NavLink>
+                        <NavLink to="/shop">
+                            <i className="iconfont icon-shop"></i>
+                            商城
+                        </NavLink>
                     </li>
                     <li>
-                        <NavLink to={'/life'}>生活服务</NavLink>
+                        <NavLink to="/life">
+                            <i className="iconfont icon-trophy"></i>
+                            生活服务
+                        </NavLink>
                     </li>
                     <li>
-                        <NavLink to={'/mine'}>我的</NavLink>
+                        <NavLink to="/mine">
+                            <i className="iconfont icon-team"></i>
+                            我的
+                        </NavLink>
                     </li>
                 </ul>
             </div>
