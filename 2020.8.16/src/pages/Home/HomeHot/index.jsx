@@ -13,12 +13,13 @@ export default class HomeHot extends React.Component{
     }
 
     componentDidMount () {
-        api.homehot.homehot1Data().then(res => res.json()).then(data => {
+        const city = this.props.city || localStorage.getItem('city') || '北京';
+        api.homehot.homehot1Data(city).then(res => res.json()).then(data => {
             this.setState({
                 homehot1: data
             })
         })
-        api.homehot.homehot2Data().then(res => res.json()).then(data => {
+        api.homehot.homehot2Data(city).then(res => res.json()).then(data => {
             this.setState({
                 homehot2: data
             })
